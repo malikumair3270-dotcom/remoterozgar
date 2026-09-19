@@ -1,0 +1,38 @@
+name: CI & Security Audit
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Dependency Security Audit
+        run: npm audit --audit-level=high || true
+
+      - name: TypeScript type-check
+        run: npx tsc --noEmit
+
+      - name: Run Security & Functionality Verification Suite
+        run: npx tsx scripts/test-security.ts
+
+      - name: Build
+        run: npm run build
+        env:
+          NODE_ENV: production
