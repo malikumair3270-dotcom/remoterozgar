@@ -11,11 +11,13 @@ const DIGEST = 'sha512';
 
 function getHmacSecret(): string {
   const secret = process.env.ADMIN_JWT_SECRET || process.env.SESSION_SECRET;
-  if (!secret && process.env.NODE_ENV === 'production') {
-    // Fallback securely or throw if not set
-    return 'remoterozgar-secure-jwt-hmac-fallback-key-2026';
+  if (!secret) {
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error('ADMIN_JWT_SECRET environment variable is not set.');
+    }
+    return 'dev-only-insecure-secret-do-not-deploy';
   }
-  return secret || 'dev-only-insecure-secret-do-not-deploy';
+  return secret;
 }
 
 

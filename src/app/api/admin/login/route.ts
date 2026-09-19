@@ -12,7 +12,13 @@ import { logger } from '@/lib/logger';
 export const dynamic = 'force-dynamic';
 
 function getAdminHash(): string {
-  const hash = process.env.ADMIN_SECRET_HASH || '428b76029b2e7151dd31baff1c787c96:e5646d6d2d332e16fbdaf426a5e044211b9084aa70d00e052fdf6029691836a779e7ce3c7880d95e7084bae55845f7e5300fa5b3c4380767a11ef7948a8ab01a';
+  const hash = process.env.ADMIN_SECRET_HASH;
+  if (!hash) {
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error('ADMIN_SECRET_HASH environment variable is not set.');
+    }
+    return '';
+  }
   return hash.trim();
 }
 
