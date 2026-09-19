@@ -3,6 +3,8 @@ import { getAdminJobs, addAdminJob, AdminCustomJob } from '@/lib/adminStore';
 import { isAdminAuthenticated } from '@/lib/authCrypto';
 import { logger } from '@/lib/logger';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: Request) {
   // 1. Strict Authentication Check
   if (!isAdminAuthenticated(request)) {

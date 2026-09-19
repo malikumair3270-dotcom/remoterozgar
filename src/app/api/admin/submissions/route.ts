@@ -4,6 +4,8 @@ import { isAdminAuthenticated } from '@/lib/authCrypto';
 import { checkRateLimit } from '@/lib/rateLimit';
 import { logger } from '@/lib/logger';
 
+export const dynamic = 'force-dynamic';
+
 // ---------------------------------------------------------------------------
 // Input validation helper
 // ---------------------------------------------------------------------------

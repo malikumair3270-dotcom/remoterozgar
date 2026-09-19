@@ -3,6 +3,8 @@ import { Job } from '@/lib/types';
 import { formatSalaryPkr } from '@/lib/utils';
 import { getAdminJobs } from '@/lib/adminStore';
 
+export const dynamic = 'force-dynamic';
+
 // High-converting curated remote roles & internships specifically suited for Pakistan/South Asian remote workers
 const CURATED_PAKISTAN_ROLES: Job[] = [
   {
