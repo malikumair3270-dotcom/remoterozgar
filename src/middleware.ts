@@ -38,5 +38,12 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: '/:path*',
+  matcher: [
+    /*
+     * Match all request paths except for:
+     * - _next/static, _next/image
+     * - favicon.ico, ads.txt, robots.txt, sitemap.xml, manifest.json
+     */
+    '/((?!_next/static|_next/image|favicon.ico|ads\\.txt|robots\\.txt|sitemap\\.xml|manifest\\.json).*)',
+  ],
 };
