@@ -33,21 +33,34 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Col 2: Categories */}
+          {/* Col 2: Guides & Roadmaps */}
           <div className="space-y-2">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">Job Categories</h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">Career Guides</h4>
             <ul className="space-y-1.5 text-xs">
-              <li><Link href="/?category=tech" className="hover:text-white transition-colors">Tech & Software</Link></li>
-              <li><Link href="/?category=design" className="hover:text-white transition-colors">UI/UX & Graphics</Link></li>
-              <li><Link href="/?category=writing" className="hover:text-white transition-colors">Content & SEO</Link></li>
-              <li><Link href="/?category=support" className="hover:text-white transition-colors">Virtual Assistant</Link></li>
+              <li><Link href="/guides" className="text-emerald-400 font-semibold hover:text-white transition-colors">All Career Guides →</Link></li>
+              <li><Link href="/guides/remote-data-entry-jobs-guide" className="hover:text-white transition-colors">Data Entry &amp; VA Guide</Link></li>
+              <li><Link href="/guides/freelance-usd-earnings-guide-pakistan" className="hover:text-white transition-colors">Earn USD in Pakistan</Link></li>
+              <li><Link href="/guides/international-payment-methods-pakistan" className="hover:text-white transition-colors">Payoneer &amp; Tax Guide</Link></li>
+              <li><Link href="/guides/ats-resume-guide-remote-jobs" className="hover:text-white transition-colors">ATS Resume Blueprint</Link></li>
+              <li><Link href="/guides/remote-software-engineer-guide" className="hover:text-white transition-colors">Remote Software Engineer</Link></li>
+            </ul>
+          </div>
+
+          {/* Col 3: Free Tools & Categories */}
+          <div className="space-y-2">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">Free Tools &amp; Jobs</h4>
+            <ul className="space-y-1.5 text-xs">
+              <li><Link href="/tools/tax-calculator" className="text-emerald-400 font-semibold hover:text-white transition-colors">USD to PKR Tax Tool</Link></li>
+              <li><Link href="/tools/resume-checker" className="text-emerald-400 font-semibold hover:text-white transition-colors">ATS Resume Checker</Link></li>
+              <li><Link href="/?category=tech" className="hover:text-white transition-colors">Tech &amp; Software Jobs</Link></li>
+              <li><Link href="/?category=support" className="hover:text-white transition-colors">Customer Care &amp; VA</Link></li>
               <li><Link href="/?category=internship" className="hover:text-white transition-colors">Paid Internships</Link></li>
             </ul>
           </div>
 
-          {/* Col 3: Legal & AdSense Pages */}
+          {/* Col 4: Legal & Support */}
           <div className="space-y-2">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">Legal & Support</h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">Legal &amp; Support</h4>
             <ul className="space-y-1.5 text-xs">
               <li>
                 <Link href="/about" className="hover:text-white transition-colors inline-flex items-center gap-1.5">
@@ -70,41 +83,16 @@ export default function Footer() {
               <li>
                 <Link href="/terms" className="hover:text-white transition-colors inline-flex items-center gap-1.5">
                   <Scale className="h-3 w-3 text-emerald-400" />
-                  <span>Terms & Conditions</span>
+                  <span>Terms &amp; Conditions</span>
                 </Link>
               </li>
               <li>
-                <Link href="/saved" className="hover:text-white transition-colors">
-                  Saved Bookmarks
+                <Link href="/admin" className="hover:text-white transition-colors inline-flex items-center gap-1.5">
+                  <Lock className="h-3 w-3" />
+                  <span>Admin Portal</span>
                 </Link>
               </li>
             </ul>
-          </div>
-
-          {/* Col 4: Community & Admin Link */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">Community & Portal</h4>
-            <p className="text-xs text-slate-400">
-              Share remote jobs to your university or freelancing WhatsApp groups to help peers earn.
-            </p>
-            <a
-              href="https://api.whatsapp.com/send?text=Check%20out%20RemoteRozgar%20for%20verified%20remote%20jobs%20in%20USD%20for%20Pakistanis!%20https://remoterozgar.vercel.app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-3.5 py-2 text-xs font-bold text-white hover:bg-emerald-500 transition-colors"
-            >
-              <MessageCircle className="h-4 w-4" />
-              <span>Share on WhatsApp</span>
-            </a>
-            <div>
-              <Link
-                href="/admin"
-                className="inline-flex items-center gap-1.5 text-[11px] text-slate-500 hover:text-slate-300 transition-colors pt-1"
-              >
-                <Lock className="h-3 w-3" />
-                <span>Admin Portal</span>
-              </Link>
-            </div>
           </div>
 
         </div>

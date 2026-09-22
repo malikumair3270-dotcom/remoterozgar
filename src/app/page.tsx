@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useTransition } from 'react';
+import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import HeroBanner from '@/components/HeroBanner';
 import JobCard from '@/components/JobCard';
@@ -11,7 +12,55 @@ import AffiliateCard from '@/components/AffiliateCard';
 import Footer from '@/components/Footer';
 import AndroidInstallBar from '@/components/AndroidInstallBar';
 import { Job, JobCategory } from '@/lib/types';
-import { Loader2, SearchX, Sparkles, Filter, AlertCircle, RefreshCw } from 'lucide-react';
+import {
+  Loader2,
+  SearchX,
+  Sparkles,
+  Filter,
+  AlertCircle,
+  RefreshCw,
+  BookOpen,
+  Calculator,
+  FileCheck,
+  ChevronDown,
+  HelpCircle,
+  ArrowRight,
+  ShieldCheck,
+  DollarSign,
+} from 'lucide-react';
+
+const HOMEPAGE_FAQS = [
+  {
+    question: 'Can Pakistani citizens legally work for US and European companies remotely?',
+    answer:
+      'Yes! International companies legally hire Pakistani remote professionals as independent contractors or via Employer of Record (EOR) services like Deel and Remote.com. Foreign currency earned through IT and IT-enabled services (ITeS) is legally recognized and incentivized by the State Bank of Pakistan.',
+  },
+  {
+    question: 'Do I need PayPal to receive remote salaries from international employers?',
+    answer:
+      'No. PayPal is not required. International employers pay remote workers via direct bank wire (SWIFT), Payoneer (which provides a US receiving bank account), SadaBiz, or contractor platforms like Deel. Funds transfer directly into your local Pakistani bank account (Meezan, HBL, Bank Alfalah, etc.) in PKR.',
+  },
+  {
+    question: 'What is the tax rate on foreign remote freelance earnings in Pakistan?',
+    answer:
+      'Under Section 154A of the Income Tax Ordinance, individuals registered with the Pakistan Software Export Board (PSEB) pay only 0.25% final withholding tax on foreign IT and export earnings. Unregistered active filers pay 1%, while non-filers are subject to 2%.',
+  },
+  {
+    question: 'How does RemoteRozgar verify jobs to protect against online scams?',
+    answer:
+      'RemoteRozgar manually reviews job postings and aggregates directly from company Applicant Tracking Systems (ATS) and verified boards. We strictly discard any listing requiring registration fees, security deposits, or unofficial chat interviews (Telegram/WhatsApp).',
+  },
+  {
+    question: 'Are there any fees or charges for applying through RemoteRozgar?',
+    answer:
+      'Zero fees. RemoteRozgar is 100% free for all job seekers, students, and freelancers. We never charge application fees, commission, or subscription fees.',
+  },
+  {
+    question: 'What skills are in highest demand for beginners with no coding experience?',
+    answer:
+      'For non-programmers, high-demand entry roles include Virtual Assistance, Data Entry and spreadsheet management, Customer Care and Live Chat support, Content Writing, and Social Media Management. Starting rates typically range from $5 to $15 per hour.',
+  },
+];
 
 export default function HomePage() {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -22,6 +71,7 @@ export default function HomePage() {
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [isPostJobOpen, setIsPostJobOpen] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
+  const [expandedFaqIndex, setExpandedFaqIndex] = useState<number | null>(0);
   const [, startTransition] = useTransition();
 
   // Load saved jobs from localStorage & track visitor
@@ -231,6 +281,273 @@ export default function HomePage() {
               })}
             </div>
           )}
+
+          {/* Section 1: Free Career Tools Showcase */}
+          <div className="mt-16 pt-12 border-t border-slate-200">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+              <div>
+                <span className="text-[11px] font-bold text-emerald-600 uppercase tracking-wider">
+                  Interactive Utilities
+                </span>
+                <h3 className="text-xl sm:text-2xl font-black text-slate-900 mt-1">
+                  Free Tools for Remote Job Seekers
+                </h3>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Calculate tax-compliant net earnings in Pakistani Rupees and audit your resume against international ATS standards.
+                </p>
+              </div>
+              <Link
+                href="/tools"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 hover:text-emerald-700 self-start sm:self-auto"
+              >
+                <span>View All Tools</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Tool Card 1 */}
+              <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm flex flex-col justify-between hover:border-emerald-500/50 transition-all hover:shadow-md">
+                <div className="space-y-3">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600">
+                    <Calculator className="h-5 w-5" />
+                  </div>
+                  <h4 className="text-base font-bold text-slate-900">
+                    USD to PKR Freelancer Income &amp; Tax Calculator
+                  </h4>
+                  <p className="text-xs text-slate-500 leading-relaxed">
+                    Calculate monthly and annual net PKR take-home pay with PSEB 0.25% export tax vs non-filer rates and payment gateway FX spreads.
+                  </p>
+                </div>
+                <div className="pt-5 border-t border-slate-100 mt-5">
+                  <Link
+                    href="/tools/tax-calculator"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 hover:text-emerald-700"
+                  >
+                    <span>Calculate Your Net Pay →</span>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Tool Card 2 */}
+              <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm flex flex-col justify-between hover:border-emerald-500/50 transition-all hover:shadow-md">
+                <div className="space-y-3">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-50 text-brand-600">
+                    <FileCheck className="h-5 w-5" />
+                  </div>
+                  <h4 className="text-base font-bold text-slate-900">
+                    ATS Remote Resume Readiness Audit
+                  </h4>
+                  <p className="text-xs text-slate-500 leading-relaxed">
+                    Check your CV against 11 critical international screening criteria. Eliminate disqualifying elements like photos and CNIC.
+                  </p>
+                </div>
+                <div className="pt-5 border-t border-slate-100 mt-5">
+                  <Link
+                    href="/tools/resume-checker"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-600 hover:text-brand-700"
+                  >
+                    <span>Audit Resume Now →</span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Section 2: Featured Career Guides */}
+          <div className="mt-16 pt-12 border-t border-slate-200">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+              <div>
+                <span className="text-[11px] font-bold text-emerald-600 uppercase tracking-wider">
+                  Educational Roadmaps
+                </span>
+                <h3 className="text-xl sm:text-2xl font-black text-slate-900 mt-1">
+                  How to Succeed in Remote Work from Pakistan
+                </h3>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Actionable, step-by-step career guides written specifically for Pakistani professionals, graduates, and freelancers.
+                </p>
+              </div>
+              <Link
+                href="/guides"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 hover:text-emerald-700 self-start sm:self-auto"
+              >
+                <span>Read All 6 Guides</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Guide 1 */}
+              <article className="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm hover:border-emerald-500/50 transition-all flex flex-col justify-between">
+                <div className="space-y-3">
+                  <span className="inline-block px-2.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-bold">
+                    Virtual Assistance &amp; Data
+                  </span>
+                  <h4 className="text-sm font-bold text-slate-900 leading-snug">
+                    <Link href="/guides/remote-data-entry-jobs-guide" className="hover:text-emerald-600 transition-colors">
+                      Remote Data Entry &amp; Virtual Assistant Jobs: 2026 Guide
+                    </Link>
+                  </h4>
+                  <p className="text-xs text-slate-500 line-clamp-3">
+                    Verified platforms, spreadsheet skills, expected earnings ($5–$18/hr), and how to avoid registration fee scams.
+                  </p>
+                </div>
+                <div className="pt-4 border-t border-slate-100 mt-4 flex items-center justify-between text-xs">
+                  <span className="text-[11px] text-slate-400 font-medium">8 min read</span>
+                  <Link
+                    href="/guides/remote-data-entry-jobs-guide"
+                    className="font-bold text-emerald-600 hover:text-emerald-700"
+                  >
+                    Read Guide →
+                  </Link>
+                </div>
+              </article>
+
+              {/* Guide 2 */}
+              <article className="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm hover:border-emerald-500/50 transition-all flex flex-col justify-between">
+                <div className="space-y-3">
+                  <span className="inline-block px-2.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-bold">
+                    Freelancing Strategy
+                  </span>
+                  <h4 className="text-sm font-bold text-slate-900 leading-snug">
+                    <Link href="/guides/freelance-usd-earnings-guide-pakistan" className="hover:text-emerald-600 transition-colors">
+                      How to Earn in USD from Pakistan: Remote Blueprint
+                    </Link>
+                  </h4>
+                  <p className="text-xs text-slate-500 line-clamp-3">
+                    Portfolio development with zero foreign experience, pitching international clients, and managing US timezone overlaps.
+                  </p>
+                </div>
+                <div className="pt-4 border-t border-slate-100 mt-4 flex items-center justify-between text-xs">
+                  <span className="text-[11px] text-slate-400 font-medium">10 min read</span>
+                  <Link
+                    href="/guides/freelance-usd-earnings-guide-pakistan"
+                    className="font-bold text-emerald-600 hover:text-emerald-700"
+                  >
+                    Read Guide →
+                  </Link>
+                </div>
+              </article>
+
+              {/* Guide 3 */}
+              <article className="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm hover:border-emerald-500/50 transition-all flex flex-col justify-between">
+                <div className="space-y-3">
+                  <span className="inline-block px-2.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-bold">
+                    Payments &amp; Tax
+                  </span>
+                  <h4 className="text-sm font-bold text-slate-900 leading-snug">
+                    <Link href="/guides/international-payment-methods-pakistan" className="hover:text-emerald-600 transition-colors">
+                      Receive USD in Pakistan: Payoneer, SadaBiz &amp; PSEB 0.25% Tax
+                    </Link>
+                  </h4>
+                  <p className="text-xs text-slate-500 line-clamp-3">
+                    Operating without PayPal, comparing gateway fees, obtaining bank PRCs, and legal 0.25% PSEB tax registration.
+                  </p>
+                </div>
+                <div className="pt-4 border-t border-slate-100 mt-4 flex items-center justify-between text-xs">
+                  <span className="text-[11px] text-slate-400 font-medium">9 min read</span>
+                  <Link
+                    href="/guides/international-payment-methods-pakistan"
+                    className="font-bold text-emerald-600 hover:text-emerald-700"
+                  >
+                    Read Guide →
+                  </Link>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          {/* Section 3: Why RemoteRozgar & Verification Process */}
+          <div className="mt-16 bg-gradient-to-br from-slate-900 via-slate-950 to-emerald-950 rounded-3xl p-8 sm:p-12 text-white shadow-xl">
+            <div className="max-w-3xl space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-semibold">
+                <ShieldCheck className="h-3.5 w-3.5" />
+                <span>Our Editorial &amp; Anti-Scam Standard</span>
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-black text-white">
+                Protecting Pakistani Talent from Employment Scams
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Social media in Pakistan is filled with fraudulent "copy-paste job" schemes demanding advance payments via JazzCash or EasyPaisa. RemoteRozgar was founded with an uncompromised mission: every job listing on this portal is verified, links directly to the hiring employer or ATS board, and charges $0 to job seekers.
+              </p>
+              <div className="pt-2 flex flex-wrap gap-4 text-xs font-semibold text-emerald-300">
+                <span>✓ 100% Free Forever</span>
+                <span>✓ No Advance Fees</span>
+                <span>✓ Direct Company Apply Links</span>
+                <span>✓ Real USD to PKR Conversion</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Section 4: Interactive Frequently Asked Questions */}
+          <div className="mt-16 pt-12 border-t border-slate-200">
+            <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold">
+                <HelpCircle className="h-3.5 w-3.5" />
+                <span>Frequently Asked Questions</span>
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-black text-slate-900">
+                Common Questions from Pakistani Remote Workers
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-500">
+                Everything you need to know about working remotely for global companies from Pakistan.
+              </p>
+            </div>
+
+            <div className="max-w-3xl mx-auto space-y-3">
+              {HOMEPAGE_FAQS.map((faq, idx) => {
+                const isExpanded = expandedFaqIndex === idx;
+
+                return (
+                  <div
+                    key={idx}
+                    className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden transition-all"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setExpandedFaqIndex(isExpanded ? null : idx)}
+                      className="w-full text-left px-5 sm:px-6 py-4 flex items-center justify-between gap-4"
+                    >
+                      <span className="text-xs sm:text-sm font-bold text-slate-900">
+                        {faq.question}
+                      </span>
+                      <ChevronDown
+                        className={`h-4 w-4 text-slate-400 transition-transform shrink-0 ${
+                          isExpanded ? 'rotate-180 text-emerald-600' : ''
+                        }`}
+                      />
+                    </button>
+
+                    {isExpanded && (
+                      <div className="px-5 sm:px-6 pb-5 pt-1 text-xs text-slate-600 leading-relaxed border-t border-slate-100">
+                        {faq.answer}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Schema.org FAQPage Structured Data */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'FAQPage',
+                mainEntity: HOMEPAGE_FAQS.map((faq) => ({
+                  '@type': 'Question',
+                  name: faq.question,
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: faq.answer,
+                  },
+                })),
+              }),
+            }}
+          />
 
         </div>
       </main>

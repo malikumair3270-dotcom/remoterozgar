@@ -34,7 +34,7 @@ export default function PrivacyPolicyPage() {
               </div>
               <div>
                 <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">Privacy Policy</h1>
-                <p className="text-xs text-slate-500 mt-1">Last Updated: September 18, 2026</p>
+                <p className="text-xs text-slate-500 mt-1">Last Updated: September 22, 2026</p>
               </div>
             </div>
             <p className="text-sm text-slate-600 leading-relaxed mt-3">
@@ -49,7 +49,7 @@ export default function PrivacyPolicyPage() {
               1. Information We Collect
             </h2>
             <p className="text-sm text-slate-600 leading-relaxed">
-              RemoteRozgar operates as a 100% free job discovery portal. You can browse all global remote job listings, filter opportunities by category, and apply directly without registering an account or providing sensitive personal information.
+              RemoteRozgar operates as a 100% free job discovery portal and career resource platform. You can browse all global remote job listings, access educational career roadmaps, calculate freelancer taxes, and apply directly without registering an account or providing sensitive personal information.
             </p>
             <ul className="list-disc pl-5 text-sm text-slate-600 space-y-1">
               <li><strong>Contact Form Submissions:</strong> If you contact us directly via our Contact page or support email, we may receive additional information about you such as your name, email address, the contents of the message and/or attachments you may send us.</li>
@@ -61,10 +61,10 @@ export default function PrivacyPolicyPage() {
           <section className="space-y-3">
             <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
               <Lock className="h-5 w-5 text-emerald-600" />
-              2. Google AdSense & DoubleClick DART Cookies
+              2. Google AdSense &amp; DoubleClick DART Cookies
             </h2>
             <p className="text-sm text-slate-600 leading-relaxed">
-              Google is a third-party vendor on our site. It uses cookies, known as DART cookies, to serve ads to our site visitors based upon their visit to www.website.com and other sites on the internet.
+              Google is a third-party vendor on our site. It uses cookies, known as DART cookies, to serve ads to our site visitors based upon their visit to https://remoterozgar.vercel.app and other sites on the internet.
             </p>
             <ul className="list-disc pl-5 text-sm text-slate-600 space-y-2">
               <li>

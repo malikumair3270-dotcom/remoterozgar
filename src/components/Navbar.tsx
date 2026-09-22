@@ -64,6 +64,12 @@ export default function Navbar({ onOpenPostJob, savedCount = 0 }: NavbarProps) {
           <Link href="/" className="hover:text-brand-600 transition-colors">
             Explore Jobs
           </Link>
+          <Link href="/guides" className="hover:text-brand-600 transition-colors">
+            Guides
+          </Link>
+          <Link href="/tools" className="hover:text-brand-600 transition-colors">
+            Free Tools
+          </Link>
           <Link href="/?category=internship" className="flex items-center gap-1 hover:text-brand-600 transition-colors">
             <Sparkles className="h-3.5 w-3.5 text-amber-500" />
             Internships
@@ -132,6 +138,20 @@ export default function Navbar({ onOpenPostJob, savedCount = 0 }: NavbarProps) {
             className="block text-sm font-semibold text-slate-800 py-1.5"
           >
             Browse All Jobs
+          </Link>
+          <Link
+            href="/guides"
+            onClick={() => setIsMenuOpen(false)}
+            className="block text-sm font-semibold text-slate-800 py-1.5"
+          >
+            📚 Career Guides
+          </Link>
+          <Link
+            href="/tools"
+            onClick={() => setIsMenuOpen(false)}
+            className="block text-sm font-semibold text-slate-800 py-1.5"
+          >
+            🧮 Free Tools (Tax &amp; ATS)
           </Link>
           <Link
             href="/?category=internship"
