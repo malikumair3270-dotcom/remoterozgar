@@ -108,11 +108,12 @@ const CHECKLIST_ITEMS: ChecklistItem[] = [
 ];
 
 export default function ResumeCheckerPage() {
-  const [checkedIds, setCheckedIds] = useState<Record<string, boolean>>({
-    single_column: true,
-    standard_fonts: true,
-    standard_pdf: true,
-    no_skill_bars: true,
+  const [checkedIds, setCheckedIds] = useState<Record<string, boolean>>(() => {
+    const initial: Record<string, boolean> = {};
+    CHECKLIST_ITEMS.forEach((item) => {
+      initial[item.id] = true;
+    });
+    return initial;
   });
 
   const toggleItem = (id: string) => {
@@ -137,22 +138,22 @@ export default function ResumeCheckerPage() {
     });
 
     let badge = {
-      title: 'High Rejection Risk',
-      color: 'bg-rose-50 border-rose-200 text-rose-800',
-      description: 'Your CV likely gets blocked by automated ATS screening software or US legal filters.',
+      title: 'ATS Audit in Progress',
+      color: 'bg-amber-50 border-amber-200 text-amber-800',
+      description: 'Check the items below that match your CV to test international ATS readiness.',
     };
 
     if (totalScore >= 85 && fatalFails.length === 0) {
       badge = {
-        title: 'ATS Ready for US / EU Remote Jobs',
+        title: 'ATS Ready for International Remote Jobs',
         color: 'bg-emerald-50 border-emerald-200 text-emerald-800',
-        description: 'Excellent format! Your resume follows modern international hiring and parsing standards.',
+        description: 'Standard 100% compliant format following US and European ATS parsing rules.',
       };
     } else if (totalScore >= 60 && fatalFails.length === 0) {
       badge = {
-        title: 'Good Progress, Minor Tweaks Needed',
+        title: 'Good Progress, Minor Tweaks Recommended',
         color: 'bg-amber-50 border-amber-200 text-amber-800',
-        description: 'Address the unchecked points below to maximize your interview callback rate.',
+        description: 'Review unchecked recommendations below to maximize your interview callback rate.',
       };
     }
 
@@ -226,13 +227,13 @@ export default function ResumeCheckerPage() {
             </div>
           </div>
 
-          {/* Fatal Violations Alert */}
+          {/* Helpful Tips Alert */}
           {fatalErrors.length > 0 && (
-            <div className="mt-6 pt-5 border-t border-slate-800 flex items-start gap-3 text-rose-300 text-xs">
-              <XCircle className="h-5 w-5 text-rose-400 shrink-0 mt-0.5" />
+            <div className="mt-6 pt-5 border-t border-slate-800 flex items-start gap-3 text-amber-200 text-xs">
+              <AlertTriangle className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
               <div>
-                <strong className="text-white font-bold">Critical Compliance Disqualification: </strong>
-                You have not confirmed: {fatalErrors.join(' and ')}. International ATS software automatically disposes of CVs containing photos, CNIC, or personal demographic data to comply with US anti-discrimination employment acts.
+                <strong className="text-white font-bold">Important Recommendation: </strong>
+                Ensure your CV does not include {fatalErrors.join(' or ')}. International companies in the US and Europe prefer resumes without photos or national IDs to maintain anti-discrimination standards.
               </div>
             </div>
           )}
