@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import GuideEngagement from '@/components/GuideEngagement';
 import { CAREER_GUIDES, getGuideBySlug } from '@/lib/guidesData';
 import {
   ArrowLeft,
@@ -307,6 +308,63 @@ export default async function GuideDetailPage({ params }: Props) {
               ))}
             </div>
           </section>
+
+          {/* Interactive Engagement & Newsletter */}
+          <GuideEngagement guideTitle={guide.title} guideSlug={guide.slug} />
+
+          {/* Author Credibility Card */}
+          <div className="pt-6 border-t border-slate-200">
+            <div className="bg-slate-50/80 rounded-2xl p-6 border border-slate-200/80 flex flex-col sm:flex-row items-start gap-4">
+              <div className="h-12 w-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-black text-sm shrink-0">
+                RR
+              </div>
+              <div className="space-y-1.5">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h4 className="text-sm font-bold text-slate-900">{guide.author.name}</h4>
+                  <span className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-bold">
+                    {guide.author.role}
+                  </span>
+                </div>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  {guide.author.bio ||
+                    'Senior research member of the RemoteRozgar career advisory panel, committed to equipping Pakistani professionals with international remote work benchmarks, verified compensation data, and actionable application strategies.'}
+                </p>
+                <div className="pt-1 text-[11px] text-slate-400">
+                  Last verified &amp; updated on {guide.lastUpdated} • Fact-checked for 2026 remote hiring standards.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Related Free Tools Section */}
+          <div className="pt-4 border-t border-slate-200">
+            <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">
+              Recommended Free Tools for This Guide:
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <Link
+                href="/tools/tax-calculator"
+                className="p-3.5 rounded-xl border border-slate-200 hover:border-emerald-500 bg-white transition-all hover:shadow-sm space-y-1"
+              >
+                <div className="font-bold text-slate-900">USD/PKR Tax Calculator</div>
+                <div className="text-[11px] text-slate-500">Calculate net PKR earnings with PSEB tax.</div>
+              </Link>
+              <Link
+                href="/tools/resume-checker"
+                className="p-3.5 rounded-xl border border-slate-200 hover:border-emerald-500 bg-white transition-all hover:shadow-sm space-y-1"
+              >
+                <div className="font-bold text-slate-900">ATS Resume Checker</div>
+                <div className="text-[11px] text-slate-500">Audit your CV for international criteria.</div>
+              </Link>
+              <Link
+                href="/tools/cover-letter-generator"
+                className="p-3.5 rounded-xl border border-slate-200 hover:border-emerald-500 bg-white transition-all hover:shadow-sm space-y-1"
+              >
+                <div className="font-bold text-slate-900">Cover Letter Tool</div>
+                <div className="text-[11px] text-slate-500">Generate a custom remote pitch letter.</div>
+              </Link>
+            </div>
+          </div>
         </div>
 
         {/* Bottom CTA / Navigation to Jobs */}

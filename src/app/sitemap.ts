@@ -38,6 +38,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.95,
     },
     {
+      url: `${baseUrl}/tools/hourly-calculator`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/tools/cover-letter-generator`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/tools/interview-practice`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
+    {
       url: `${baseUrl}/about`,
       lastModified: currentDate,
       changeFrequency: 'monthly',

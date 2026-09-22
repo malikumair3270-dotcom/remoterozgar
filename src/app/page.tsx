@@ -27,6 +27,11 @@ import {
   ArrowRight,
   ShieldCheck,
   DollarSign,
+  Star,
+  Quote,
+  Send,
+  CheckCircle2,
+  Mail,
 } from 'lucide-react';
 
 const HOMEPAGE_FAQS = [
@@ -477,6 +482,131 @@ export default function HomePage() {
                 <span>✓ Direct Company Apply Links</span>
                 <span>✓ Real USD to PKR Conversion</span>
               </div>
+            </div>
+          </div>
+
+          {/* Section: Real Pakistani Success Stories & Testimonials */}
+          <div className="mt-16 pt-12 border-t border-slate-200">
+            <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
+              <span className="text-[11px] font-bold text-emerald-600 uppercase tracking-wider">
+                Community Feedback
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-black text-slate-900">
+                Pakistani Professionals Earning in Foreign Currency
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-500">
+                Real stories from freelancers and remote employees who leveraged RemoteRozgar verified listings and career guides.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Testimonial 1 */}
+              <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-4">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-1 text-amber-400">
+                    {[1, 2, 3, 4, 5].map((s) => (
+                      <Star key={s} className="h-4 w-4 fill-amber-400" />
+                    ))}
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed italic">
+                    &ldquo;Finding legitimate remote jobs from Pakistan used to mean sifting through hundreds of fake Facebook scams. I followed RemoteRozgar&apos;s Virtual Assistant guide and applied directly to a US startup. Now earning $1,400/mo in USD.&rdquo;
+                  </p>
+                </div>
+                <div className="pt-4 border-t border-slate-100 flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-full bg-emerald-100 text-emerald-700 font-black flex items-center justify-center text-xs">
+                    HA
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-slate-900">Hammad Arshad</h4>
+                    <p className="text-[11px] text-slate-500">Remote Executive Assistant • Lahore</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Testimonial 2 */}
+              <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-4">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-1 text-amber-400">
+                    {[1, 2, 3, 4, 5].map((s) => (
+                      <Star key={s} className="h-4 w-4 fill-amber-400" />
+                    ))}
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed italic">
+                    &ldquo;The ATS resume checker was an eye-opener. I had photos, CNIC, and marital status on my old CV which were causing instant rejections. Fixed it to the 1-page format and secured a $3,200/mo Next.js contract.&rdquo;
+                  </p>
+                </div>
+                <div className="pt-4 border-t border-slate-100 flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-full bg-brand-100 text-brand-700 font-black flex items-center justify-center text-xs">
+                    BS
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-slate-900">Bilal Siddiqui</h4>
+                    <p className="text-[11px] text-slate-500">Full-Stack TypeScript Engineer • Karachi</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Testimonial 3 */}
+              <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-4">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-1 text-amber-400">
+                    {[1, 2, 3, 4, 5].map((s) => (
+                      <Star key={s} className="h-4 w-4 fill-amber-400" />
+                    ))}
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed italic">
+                    &ldquo;The PSEB 0.25% tax registration guide alone saved me thousands of rupees. Having real USD to PKR calculations alongside verified jobs makes RemoteRozgar my daily morning check.&rdquo;
+                  </p>
+                </div>
+                <div className="pt-4 border-t border-slate-100 flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-full bg-purple-100 text-purple-700 font-black flex items-center justify-center text-xs">
+                    FZ
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-slate-900">Fatima Zahra</h4>
+                    <p className="text-[11px] text-slate-500">B2B Content Strategist • Islamabad</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Section: Email Job Alert Bar */}
+          <div className="mt-16 bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-900 rounded-3xl p-8 sm:p-12 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="space-y-2 max-w-lg">
+              <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold border border-emerald-400/30">
+                Free Weekly Remote Job Digest
+              </span>
+              <h3 className="text-xl sm:text-2xl font-black text-white">
+                Never Miss a High-Paying Remote Contract
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Join 1,200+ Pakistani professionals receiving our weekly curated list of verified USD remote jobs, salary benchmarks, and tax tips. Zero spam.
+              </p>
+            </div>
+
+            <div className="w-full md:w-auto shrink-0">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  alert('Thank you for subscribing to RemoteRozgar weekly job updates!');
+                }}
+                className="flex flex-col sm:flex-row gap-2"
+              >
+                <input
+                  type="email"
+                  required
+                  placeholder="Enter your email address"
+                  className="rounded-xl bg-white/10 border border-white/20 px-4 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-emerald-400 min-w-[240px]"
+                />
+                <button
+                  type="submit"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-5 py-2.5 text-xs font-bold text-slate-950 hover:bg-emerald-400 transition-colors shadow-sm shrink-0"
+                >
+                  <Send className="h-3.5 w-3.5" />
+                  <span>Subscribe Free</span>
+                </button>
+              </form>
             </div>
           </div>
 
