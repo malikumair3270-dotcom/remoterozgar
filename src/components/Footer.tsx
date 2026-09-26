@@ -1,111 +1,148 @@
-'use client';
-
 import React from 'react';
 import Link from 'next/link';
-import { Briefcase, Heart, MessageCircle, Shield, Lock, FileText, Scale, Info, Mail } from 'lucide-react';
+import { Logo } from './Logo';
+import { Heart, Globe2, ShieldCheck, Mail, ArrowUpRight } from 'lucide-react';
 
-export default function Footer() {
+export const Footer: React.FC = () => {
   return (
-    <footer className="border-t border-slate-200 bg-slate-900 text-slate-400 py-12">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
-          
-          {/* Col 1: Brand */}
-          <div className="md:col-span-2 space-y-3">
-            <div className="flex items-center gap-2.5">
-              <div className="flex h-10 w-10 shrink-0 overflow-hidden rounded-xl shadow-md border border-brand-500/30">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/logo.png" alt="RemoteRozgar Logo" className="h-full w-full object-cover" />
-              </div>
-              <span className="text-xl font-bold tracking-tight text-white">
-                Remote<span className="text-brand-400">Rozgar</span>
-              </span>
-              <span className="rounded bg-brand-900/60 border border-brand-500/30 px-1.5 py-0.5 text-[10px] font-bold text-brand-300">
-                0 FEES
-              </span>
-            </div>
-            <p className="text-xs text-slate-400 max-w-md leading-relaxed">
-              Empowering Pakistani and South Asian freelancers, students, and professionals to earn in US Dollars by connecting them to worldwide legitimate remote jobs and internships.
+    <footer className="bg-navy-950 text-coolgray-300 border-t border-navy-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
+          {/* Brand Column */}
+          <div className="lg:col-span-2 space-y-4">
+            <Logo variant="light" size="lg" />
+            <p className="text-sm text-coolgray-400 max-w-sm leading-relaxed">
+              RemoteRozgar is Pakistan and South Asia&apos;s premier dedicated platform connecting ambitious
+              software engineers, designers, writers, and operators with verified, high-paying global remote opportunities.
             </p>
-            <div className="flex items-center gap-2 text-xs text-brand-400 font-medium">
-              <Shield className="h-3.5 w-3.5" />
-              <span>100% Free Ecosystem • No Upfront Fees Ever</span>
+            <div className="flex items-center gap-3 pt-2 text-xs text-coolgray-400">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-navy-900 border border-navy-800 text-emerald-400">
+                <ShieldCheck className="w-3.5 h-3.5" /> 100% Scam-Free Verified
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-navy-900 border border-navy-800 text-sky-400">
+                <Globe2 className="w-3.5 h-3.5" /> Worldwide Hiring
+              </span>
             </div>
           </div>
 
-          {/* Col 2: Guides & Roadmaps */}
-          <div className="space-y-2">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">Career Guides</h4>
-            <ul className="space-y-1.5 text-xs">
-              <li><Link href="/guides" className="text-emerald-400 font-semibold hover:text-white transition-colors">All Career Guides →</Link></li>
-              <li><Link href="/guides/remote-data-entry-jobs-guide" className="hover:text-white transition-colors">Data Entry &amp; VA Guide</Link></li>
-              <li><Link href="/guides/freelance-usd-earnings-guide-pakistan" className="hover:text-white transition-colors">Earn USD in Pakistan</Link></li>
-              <li><Link href="/guides/international-payment-methods-pakistan" className="hover:text-white transition-colors">Payoneer &amp; Tax Guide</Link></li>
-              <li><Link href="/guides/ats-resume-guide-remote-jobs" className="hover:text-white transition-colors">ATS Resume Blueprint</Link></li>
-              <li><Link href="/guides/remote-software-engineer-guide" className="hover:text-white transition-colors">Remote Software Engineer</Link></li>
-            </ul>
-          </div>
-
-          {/* Col 3: Free Tools & Categories */}
-          <div className="space-y-2">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">Free Tools &amp; Jobs</h4>
-            <ul className="space-y-1.5 text-xs">
-              <li><Link href="/tools/tax-calculator" className="text-emerald-400 font-semibold hover:text-white transition-colors">USD to PKR Tax Tool</Link></li>
-              <li><Link href="/tools/resume-checker" className="text-emerald-400 font-semibold hover:text-white transition-colors">ATS Resume Checker</Link></li>
-              <li><Link href="/?category=tech" className="hover:text-white transition-colors">Tech &amp; Software Jobs</Link></li>
-              <li><Link href="/?category=support" className="hover:text-white transition-colors">Customer Care &amp; VA</Link></li>
-              <li><Link href="/?category=internship" className="hover:text-white transition-colors">Paid Internships</Link></li>
-            </ul>
-          </div>
-
-          {/* Col 4: Legal & Support */}
-          <div className="space-y-2">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">Legal &amp; Support</h4>
-            <ul className="space-y-1.5 text-xs">
+          {/* Jobs by Category */}
+          <div className="space-y-3">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-white">Find Remote Jobs</h3>
+            <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/about" className="hover:text-white transition-colors inline-flex items-center gap-1.5">
-                  <Info className="h-3 w-3 text-emerald-400" />
-                  <span>About Us</span>
+                <Link href="/jobs?category=Tech" className="hover:text-sky-400 transition-colors">
+                  Software Engineering
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-white transition-colors inline-flex items-center gap-1.5">
-                  <Mail className="h-3 w-3 text-emerald-400" />
-                  <span>Contact Us</span>
+                <Link href="/jobs?category=Design" className="hover:text-sky-400 transition-colors">
+                  Product & UI/UX Design
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="hover:text-white transition-colors inline-flex items-center gap-1.5">
-                  <FileText className="h-3 w-3 text-emerald-400" />
-                  <span>Privacy Policy</span>
+                <Link href="/jobs?category=Writing" className="hover:text-sky-400 transition-colors">
+                  Technical Copywriting
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="hover:text-white transition-colors inline-flex items-center gap-1.5">
-                  <Scale className="h-3 w-3 text-emerald-400" />
-                  <span>Terms &amp; Conditions</span>
+                <Link href="/jobs?category=Support" className="hover:text-sky-400 transition-colors">
+                  Customer Success & Support
                 </Link>
               </li>
               <li>
-                <Link href="/admin" className="hover:text-white transition-colors inline-flex items-center gap-1.5">
-                  <Lock className="h-3 w-3" />
-                  <span>Admin Portal</span>
+                <Link href="/jobs?category=Marketing" className="hover:text-sky-400 transition-colors">
+                  Growth & Digital Marketing
+                </Link>
+              </li>
+              <li>
+                <Link href="/jobs" className="text-sky-400 hover:text-sky-300 font-semibold inline-flex items-center gap-1">
+                  Browse All Jobs <ArrowUpRight className="w-3 h-3" />
                 </Link>
               </li>
             </ul>
           </div>
 
+          {/* Resources & Guides */}
+          <div className="space-y-3">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-white">Career Resources</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/guides" className="hover:text-sky-400 transition-colors">
+                  All Career Guides (14)
+                </Link>
+              </li>
+              <li>
+                <Link href="/resources" className="hover:text-sky-400 transition-colors">
+                  ATS Resume Templates
+                </Link>
+              </li>
+              <li>
+                <Link href="/guides/receiving-usd-payments-pakistan" className="hover:text-sky-400 transition-colors">
+                  Receiving USD in Pakistan
+                </Link>
+              </li>
+              <li>
+                <Link href="/guides/freelance-tax-fbr-filing-pakistan" className="hover:text-sky-400 transition-colors">
+                  FBR Freelancer Tax Guide
+                </Link>
+              </li>
+              <li>
+                <Link href="/faq" className="hover:text-sky-400 transition-colors">
+                  Frequently Asked Questions
+                </Link>
+              </li>
+              <li>
+                <Link href="/post-a-job" className="text-emerald-400 hover:text-emerald-300 font-semibold inline-flex items-center gap-1">
+                  Post a Remote Job <ArrowUpRight className="w-3 h-3" />
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Legal & Company */}
+          <div className="space-y-3">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-white">Company & Legal</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/about" className="hover:text-sky-400 transition-colors">
+                  Our Mission & Story
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="hover:text-sky-400 transition-colors">
+                  Contact Support
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacy" className="hover:text-sky-400 transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms" className="hover:text-sky-400 transition-colors">
+                  Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link href="/admin/login" className="text-coolgray-500 hover:text-coolgray-400 transition-colors text-xs">
+                  Admin Portal
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <div className="mt-10 border-t border-slate-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
-          <p>
-            © {new Date().getFullYear()} RemoteRozgar. Built with <Heart className="inline h-3.5 w-3.5 text-rose-500 fill-rose-500" /> for Pakistani freelancers.
-          </p>
-          <p className="text-[11px]">
-            Data feeds powered by Jobicy API. Free for commercial and non-commercial usage.
-          </p>
+        {/* Bottom Bar */}
+        <div className="mt-12 pt-8 border-t border-navy-900 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-coolgray-400">
+          <p>© {new Date().getFullYear()} RemoteRozgar. Built with pride for Pakistani & South Asian remote professionals.</p>
+          <div className="flex items-center gap-6">
+            <span>Currency conversions based on 6-hour interbank FX rates.</span>
+            <Link href="/contact" className="hover:text-sky-400 inline-flex items-center gap-1">
+              <Mail className="w-3.5 h-3.5" /> Support
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
   );
-}
+};

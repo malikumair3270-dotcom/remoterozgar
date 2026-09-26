@@ -1,123 +1,81 @@
 import React from 'react';
-import Metadata from 'next';
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import { ShieldCheck, Lock, FileText, Eye, ArrowLeft } from 'lucide-react';
 
-export const metadata = {
-  title: 'Privacy Policy - RemoteRozgar',
-  description: 'Privacy Policy and Data Protection guidelines for RemoteRozgar. Information on Google AdSense cookies, log files, and user privacy.',
+export const metadata: Metadata = {
+  title: 'Privacy Policy — RemoteRozgar',
+  description: 'Our privacy practices: how RemoteRozgar collects, uses, and safeguards candidate and employer information.',
 };
 
-export default function PrivacyPolicyPage() {
+export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-between text-slate-800">
-      <Navbar />
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+      <nav className="flex items-center gap-2 text-xs text-coolgray-500 mb-2">
+        <Link href="/" className="hover:text-navy-900 transition-colors">
+          Home
+        </Link>
+        <span>/</span>
+        <span className="text-navy-900 font-semibold">Privacy Policy</span>
+      </nav>
 
-      <main className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 flex-1">
-        <div className="mb-6">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 hover:text-emerald-700 transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            <span>Back to Remote Jobs</span>
-          </Link>
-        </div>
+      <div className="space-y-2">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-navy-900 tracking-tight">
+          Privacy Policy
+        </h1>
+        <p className="text-xs text-coolgray-500">Last updated: September 2026</p>
+      </div>
 
-        <div className="bg-white rounded-2xl p-6 sm:p-10 shadow-sm border border-slate-200/80 space-y-8">
-          <div className="border-b border-slate-100 pb-6">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-600">
-                <ShieldCheck className="h-6 w-6" />
-              </div>
-              <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">Privacy Policy</h1>
-                <p className="text-xs text-slate-500 mt-1">Last Updated: September 22, 2026</p>
-              </div>
-            </div>
-            <p className="text-sm text-slate-600 leading-relaxed mt-3">
-              At RemoteRozgar (accessible from https://remoterozgar.vercel.app), one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by RemoteRozgar and how we use it.
-            </p>
-          </div>
+      <div className="prose prose-navy max-w-none text-coolgray-700 text-sm leading-relaxed space-y-6">
+        <section>
+          <h2 className="text-lg font-bold text-navy-900">1. Information We Collect</h2>
+          <p>
+            RemoteRozgar prioritizes user privacy. When browsing our job board, guides, or resources, we do not require account registration or collection of invasive personal credentials from job seekers.
+          </p>
+          <p>
+            We collect information solely when you voluntarily provide it:
+          </p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li><strong>Employer Submissions:</strong> Company name, website, job description, salary ranges, and contact email addresses provided via <code>/post-a-job</code>.</li>
+            <li><strong>Contact Inquiries:</strong> Name, email address, subject, and message content provided via our contact form.</li>
+            <li><strong>Technical Telemetry:</strong> Anonymized standard server access logs including IP address, user agent, and timestamp used strictly for DDoS mitigation and rate-limiting enforcement.</li>
+          </ul>
+        </section>
 
-          {/* Section 1 */}
-          <section className="space-y-3">
-            <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-              <FileText className="h-5 w-5 text-emerald-600" />
-              1. Information We Collect
-            </h2>
-            <p className="text-sm text-slate-600 leading-relaxed">
-              RemoteRozgar operates as a 100% free job discovery portal and career resource platform. You can browse all global remote job listings, access educational career roadmaps, calculate freelancer taxes, and apply directly without registering an account or providing sensitive personal information.
-            </p>
-            <ul className="list-disc pl-5 text-sm text-slate-600 space-y-1">
-              <li><strong>Contact Form Submissions:</strong> If you contact us directly via our Contact page or support email, we may receive additional information about you such as your name, email address, the contents of the message and/or attachments you may send us.</li>
-              <li><strong>Job Posting Requests:</strong> Employers submitting remote job openings provide company details, position titles, and public application URLs.</li>
-            </ul>
-          </section>
+        <section>
+          <h2 className="text-lg font-bold text-navy-900">2. How We Use Information</h2>
+          <p>We use collected data solely to:</p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Review and moderate employer job postings to protect users from fraudulent listings.</li>
+            <li>Respond to candidate and employer inquiries submitted via our contact channel.</li>
+            <li>Enforce database-backed rate limiting to defend against brute-force attacks and spam.</li>
+          </ul>
+        </section>
 
-          {/* Section 2 */}
-          <section className="space-y-3">
-            <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-              <Lock className="h-5 w-5 text-emerald-600" />
-              2. Google AdSense &amp; DoubleClick DART Cookies
-            </h2>
-            <p className="text-sm text-slate-600 leading-relaxed">
-              Google is a third-party vendor on our site. It uses cookies, known as DART cookies, to serve ads to our site visitors based upon their visit to https://remoterozgar.vercel.app and other sites on the internet.
-            </p>
-            <ul className="list-disc pl-5 text-sm text-slate-600 space-y-2">
-              <li>
-                Google&apos;s use of advertising cookies enables it and its partners to serve ads to our users based on their visit to our site and/or other sites on the Internet.
-              </li>
-              <li>
-                Visitors may choose to decline the use of DART cookies by visiting the Google Ad and Content Network Privacy Policy at the following URL:{' '}
-                <a
-                  href="https://policies.google.com/technologies/ads"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-emerald-600 underline font-medium hover:text-emerald-700"
-                >
-                  https://policies.google.com/technologies/ads
-                </a>
-              </li>
-            </ul>
-          </section>
+        <section>
+          <h2 className="text-lg font-bold text-navy-900">3. Third-Party Job Links</h2>
+          <p>
+            RemoteRozgar lists external links to third-party employers, applicant tracking systems (such as Greenhouse, Lever, and Ashby), and the Jobicy public feed. When clicking an external link, you are governed by the privacy policy of that destination website. We encourage you to review their terms.
+          </p>
+        </section>
 
-          {/* Section 3 */}
-          <section className="space-y-3">
-            <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-              <Eye className="h-5 w-5 text-emerald-600" />
-              3. Log Files & Analytics
-            </h2>
-            <p className="text-sm text-slate-600 leading-relaxed">
-              RemoteRozgar follows a standard procedure of using log files. These files log visitors when they visit websites. All hosting services do this as a part of hosting services&apos; analytics. The information collected by log files includes internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any information that is personally identifiable.
-            </p>
-          </section>
+        <section>
+          <h2 className="text-lg font-bold text-navy-900">4. Cookies and Local Storage</h2>
+          <p>
+            We use minimal cookies:
+          </p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li><strong>Admin Authentication:</strong> An encrypted, HttpOnly HMAC-signed session cookie (<code>rr_admin_session</code>) used strictly for authenticated administrative access to manage postings.</li>
+            <li><strong>Local Browser Cache:</strong> Non-tracking preferences such as filter state and cached exchange rates to accelerate page loads.</li>
+          </ul>
+        </section>
 
-          {/* Section 4 */}
-          <section className="space-y-3">
-            <h2 className="text-lg font-bold text-slate-900">4. Third Party Privacy Policies</h2>
-            <p className="text-sm text-slate-600 leading-relaxed">
-              RemoteRozgar&apos;s Privacy Policy does not apply to other advertisers or third-party websites (such as external company hiring portals linked from job cards). Thus, we advise you to consult the respective Privacy Policies of these third-party ad servers or company websites for more detailed information.
-            </p>
-          </section>
-
-          {/* Section 5 */}
-          <section className="space-y-3 border-t border-slate-100 pt-6">
-            <h2 className="text-lg font-bold text-slate-900">5. Contact Us Regarding Privacy</h2>
-            <p className="text-sm text-slate-600 leading-relaxed">
-              If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us through our{' '}
-              <Link href="/contact" className="text-emerald-600 underline font-semibold">
-                Contact Page
-              </Link>{' '}
-              or via email at <strong>support@remoterozgar.com</strong>.
-            </p>
-          </section>
-        </div>
-      </main>
-
-      <Footer />
+        <section>
+          <h2 className="text-lg font-bold text-navy-900">5. Contact Regarding Privacy</h2>
+          <p>
+            If you have questions about our data handling practices or wish to request data deletion, contact our privacy desk at <code>privacy@remoterozgar.com</code> or via our <Link href="/contact" className="text-sky-600 underline">contact page</Link>.
+          </p>
+        </section>
+      </div>
     </div>
   );
 }

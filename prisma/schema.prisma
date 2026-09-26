@@ -1,43 +1,82 @@
-// prisma/schema.prisma
+datasource db {
+  provider = "postgresql"
+}
 
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+model Guide {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  title           String
+  category        String
+  excerpt         String   @db.Text
+  body            String   @db.Text
+  coverImage      String
+  publishedDate   DateTime @default(now())
+  readTimeMinutes Int
+  isFeatured      Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([category])
+  @@index([publishedDate(sort: Desc)])
 }
 
-model Admin {
-  id           Int    @id @default(autoincrement())
-  email        String @unique
-  passwordHash String
+model Job {
+  id              String   @id @default(cuid())
+  title           String
+  companyName     String
+  companyLogo     String?
+  companyWebsite  String?
+  category        String
+  location        String
+  jobType         String   @default("Full-Time")
+  salaryMinUsd    Int?
+  salaryMaxUsd    Int?
+  salaryFormatted String?
+  description     String   @db.Text
+  applyUrl        String
+  contactEmail    String?
+  isFeatured      Boolean  @default(false)
+  status          String   @default("PENDING") // PENDING, APPROVED, REJECTED, ARCHIVED
+  source          String   @default("ADMIN")   // ADMIN, SUBMISSION
+  adminNotes      String?  @db.Text
+  pubDate         DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([status, pubDate(sort: Desc)])
+  @@index([category])
+  @@index([source, status])
 }
 
-model Submission {
-  id               String   @id
-  jobTitle         String
-  companyName      String
-  applyUrl         String
-  contactWhatsApp  String?
-  notes            String?
-  status           String
-  date             DateTime
+model JobSnapshot {
+  id        String   @id @default(cuid())
+  source    String   @default("jobicy")
+  category  String   @default("all")
+  data      String   @db.Text
+  jobCount  Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([source, category, createdAt(sort: Desc)])
 }
 
-model AdminJob {
-  id           String   @id
-  title        String
-  company      String
-  companyLogo  String?
-  location     String
-  category     String
-  jobType      String
-  estSalaryPkr String
-  url          String
-  pubDate      DateTime
-  tags         String[]
-  description  String?
-  featured     Boolean  @default(true)
+model ExchangeRate {
+  id             String   @id @default(cuid())
+  baseCurrency   String   @default("USD")
+  targetCurrency String   @default("PKR")
+  rate           Float
+  fetchedAt      DateTime @default(now())
+
+  @@index([baseCurrency, targetCurrency, fetchedAt(sort: Desc)])
+}
+
+model RateLimitAttempt {
+  id        String   @id @default(cuid())
+  key       String
+  timestamp DateTime @default(now())
+
+  @@index([key, timestamp])
 }

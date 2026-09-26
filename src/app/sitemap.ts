@@ -1,105 +1,104 @@
 import { MetadataRoute } from 'next';
-import { CAREER_GUIDES } from '@/lib/guidesData';
+import { prisma } from '@/lib/prisma';
+import { SEED_GUIDES } from '@/lib/guides-seed-data';
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://remoterozgar.vercel.app';
-  const currentDate = new Date();
+export const dynamic = 'force-dynamic';
 
-  // Core static pages
-  const staticPages: MetadataRoute.Sitemap = [
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = (process.env.SITE_URL || 'https://remoterozgar.vercel.app').replace(/\/+$/, '');
+  const now = new Date();
+
+  // Static routes with priorities
+  const staticRoutes: MetadataRoute.Sitemap = [
     {
-      url: baseUrl,
-      lastModified: currentDate,
+      url: `${baseUrl}`,
+      lastModified: now,
       changeFrequency: 'daily',
       priority: 1.0,
     },
     {
+      url: `${baseUrl}/jobs`,
+      lastModified: now,
+      changeFrequency: 'hourly',
+      priority: 0.9,
+    },
+    {
       url: `${baseUrl}/guides`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly',
-      priority: 0.95,
+      lastModified: now,
+      changeFrequency: 'daily',
+      priority: 0.9,
     },
     {
-      url: `${baseUrl}/tools`,
-      lastModified: currentDate,
+      url: `${baseUrl}/resources`,
+      lastModified: now,
       changeFrequency: 'weekly',
-      priority: 0.95,
+      priority: 0.8,
     },
     {
-      url: `${baseUrl}/tools/tax-calculator`,
-      lastModified: currentDate,
+      url: `${baseUrl}/faq`,
+      lastModified: now,
       changeFrequency: 'weekly',
-      priority: 0.95,
+      priority: 0.8,
     },
     {
-      url: `${baseUrl}/tools/resume-checker`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly',
-      priority: 0.95,
-    },
-    {
-      url: `${baseUrl}/tools/hourly-calculator`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly',
-      priority: 0.95,
-    },
-    {
-      url: `${baseUrl}/tools/cover-letter-generator`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly',
-      priority: 0.95,
-    },
-    {
-      url: `${baseUrl}/tools/interview-practice`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly',
-      priority: 0.95,
-    },
-    {
-      url: `${baseUrl}/about`,
-      lastModified: currentDate,
+      url: `${baseUrl}/post-a-job`,
+      lastModified: now,
       changeFrequency: 'monthly',
-      priority: 0.85,
-    },
-    {
-      url: `${baseUrl}/contact`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly',
-      priority: 0.85,
-    },
-    {
-      url: `${baseUrl}/privacy`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly',
-      priority: 0.85,
-    },
-    {
-      url: `${baseUrl}/terms`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly',
-      priority: 0.85,
-    },
-    {
-      url: `${baseUrl}/download`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly',
       priority: 0.7,
     },
     {
-      url: `${baseUrl}/saved`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly',
-      priority: 0.5,
+      url: `${baseUrl}/about`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/contact`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/privacy`,
+      lastModified: now,
+      changeFrequency: 'yearly',
+      priority: 0.4,
+    },
+    {
+      url: `${baseUrl}/terms`,
+      lastModified: now,
+      changeFrequency: 'yearly',
+      priority: 0.4,
     },
   ];
 
-  // Dynamic career guide pages
-  const guidePages: MetadataRoute.Sitemap = CAREER_GUIDES.map((guide) => ({
-    url: `${baseUrl}/guides/${guide.slug}`,
-    lastModified: new Date(guide.lastUpdated),
-    changeFrequency: 'weekly',
-    priority: 0.9,
-  }));
+  // Dynamic guide routes
+  let guideEntries: MetadataRoute.Sitemap = [];
+  try {
+    const guides = await prisma.guide.findMany({
+      select: { slug: true, updatedAt: true, publishedDate: true },
+    });
 
-  return [...staticPages, ...guidePages];
+    if (guides.length > 0) {
+      guideEntries = guides.map((g) => ({
+        url: `${baseUrl}/guides/${g.slug}`,
+        lastModified: g.updatedAt || g.publishedDate || now,
+        changeFrequency: 'weekly',
+        priority: 0.85,
+      }));
+    }
+  } catch {
+    // Non-blocking fallback to seed data
+  }
+
+  if (guideEntries.length === 0) {
+    guideEntries = SEED_GUIDES.map((g) => ({
+      url: `${baseUrl}/guides/${g.slug}`,
+      lastModified: new Date(g.publishedDate),
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    }));
+  }
+
+  return [...staticRoutes, ...guideEntries];
 }

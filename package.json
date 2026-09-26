@@ -2,21 +2,25 @@
   "name": "remoterozgar",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "pnpm@9.12.0",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && prisma migrate deploy && next build",
     "start": "next start",
     "lint": "next lint",
-    "test:security": "npx tsx scripts/test-security.ts",
-    "test": "npm run test:security"
+    "typecheck": "tsc --noEmit",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate deploy",
+    "db:seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.10.0",
     "@prisma/client": "^7.10.0",
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^3.0.3",
     "lucide-react": "^0.446.0",
     "next": "^16.3.5",
-    "next-auth": "^4.24.15",
     "pg": "^8.23.0",
     "prisma": "^7.10.0",
     "react": "^18.3.1",
@@ -31,10 +35,7 @@
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.12",
+    "tsx": "^4.19.1",
     "typescript": "^5.6.2"
-  },
-  "allowScripts": {
-    "prisma@7.10.0": true,
-    "@prisma/engines@7.10.0": true
   }
 }

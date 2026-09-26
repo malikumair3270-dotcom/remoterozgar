@@ -1,87 +1,59 @@
-import { NextResponse } from 'next/server';
-import { checkRateLimit } from '@/lib/rateLimit';
-import { hashPassword, verifyPassword, createSignedSessionToken } from '@/lib/authCrypto';
-import { logger } from '@/lib/logger';
+import { NextRequest, NextResponse } from 'next/server';
+import { verifyAdminCredentials, createAdminSessionToken, setAdminSessionCookie } from '@/lib/auth';
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 
-// Salted PBKDF2 hash for the administrative account.
-// MUST be set via the ADMIN_SECRET_HASH environment variable in production —
-// no hardcoded fallback, because anyone with the source code would otherwise
-// know (or be able to brute-force offline) the default admin password.
-// Generate one locally with hashPassword('your-new-password') and paste the
-// result into Vercel's Environment Variables as ADMIN_SECRET_HASH.
-export const dynamic = 'force-dynamic';
-
-function getAdminHash(): string {
-  const hash = process.env.ADMIN_SECRET_HASH;
-  if (!hash) {
-    if (process.env.NODE_ENV === 'production') {
-      throw new Error('ADMIN_SECRET_HASH environment variable is not set.');
-    }
-    return '';
-  }
-  return hash.trim();
-}
-
-export async function POST(request: Request) {
-  // Extract client IP address for rate limiting
-  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? '127.0.0.1';
-
-  // 1. Rate Limiting Check (Max 5 attempts per 15 mins per IP)
-  const rateLimit = checkRateLimit(ip, 5, 15 * 60 * 1000);
-  if (!rateLimit.success) {
-    logger.warn('Admin login rate limit exceeded', { userIp: ip });
-    return NextResponse.json(
-      { success: false, error: 'Too many failed attempts. Please try again in 15 minutes.' },
-      {
-        status: 429,
-        headers: {
-          'Retry-After': '900',
-        },
-      }
-    );
-  }
-
+export async function POST(request: NextRequest) {
   try {
-    let body: Record<string, unknown>;
-    try {
-      body = await request.json();
-    } catch {
-      return NextResponse.json({ success: false, error: 'Invalid JSON payload' }, { status: 400 });
+    // 1. Database-backed rate limiting (5 attempts per 15 minutes per IP)
+    const ip = getClientIp(request.headers);
+    const rateLimit = await checkRateLimit(`admin_login:${ip}`, 5, 900);
+
+    if (!rateLimit.success) {
+      return NextResponse.json(
+        {
+          error: `Too many login attempts. Please wait ${rateLimit.resetInSeconds} seconds before trying again.`,
+        },
+        { status: 429 }
+      );
     }
 
-    const { email, password } = body as { email?: string; password?: string };
+    const body = await request.json();
+    const { email, password } = body;
 
     if (!email || !password) {
-      return NextResponse.json({ success: false, error: 'Email and password required' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Email and password are required.' },
+        { status: 400 }
+      );
     }
 
-    // 2. Password Verification using Native PBKDF2 Crypto
-    const isPasswordValid = verifyPassword(password, getAdminHash());
+    // 2. Constant-time credential verification against environment variables
+    const isValid = verifyAdminCredentials(email, password);
 
-    if (!isPasswordValid) {
-      logger.warn('Failed admin login attempt', { userIp: ip, email });
+    if (!isValid) {
       return NextResponse.json(
-        { success: false, error: 'Invalid credentials', remainingAttempts: rateLimit.remaining },
+        { error: 'Invalid admin credentials.' },
         { status: 401 }
       );
     }
 
-    // 3. Issue Cryptographically Signed HMAC Session Token
-    const signedToken = createSignedSessionToken('admin');
-    const response = NextResponse.json({ success: true, message: 'Authentication successful' });
+    // 3. Generate HMAC SHA-256 signed session token
+    const token = await createAdminSessionToken(email.trim().toLowerCase());
 
-    response.cookies.set('adminToken', signedToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 86400, // 24 Hours
-      path: '/',
+    const response = NextResponse.json({
+      success: true,
+      message: 'Authentication successful.',
     });
 
-    logger.info('Admin logged in successfully', { userIp: ip, email });
+    // 4. Set HttpOnly HMAC session cookie
+    setAdminSessionCookie(response, token);
+
     return response;
   } catch (error) {
-    logger.error('Admin login server exception', error, { userIp: ip });
-    return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
+    console.error('[API /api/admin/login Error]:', error);
+    return NextResponse.json(
+      { error: 'An error occurred during authentication.' },
+      { status: 500 }
+    );
   }
 }

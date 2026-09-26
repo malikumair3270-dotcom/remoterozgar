@@ -1,194 +1,158 @@
 'use client';
 
 import React from 'react';
-import { Job } from '@/lib/types';
-import { formatRelativeDate } from '@/lib/utils';
-import { Building2, MapPin, DollarSign, ExternalLink, Bookmark, Sparkles } from 'lucide-react';
-import WhatsAppShareBtn from './WhatsAppShareBtn';
+import type { RemoteJob } from '../lib/job-types';
+import { convertUsdToPkr } from '../lib/fx-utils';
+import { MapPin, Briefcase, ExternalLink, Sparkles, Building2, Clock } from 'lucide-react';
 
 interface JobCardProps {
-  job: Job;
-  isSaved: boolean;
-  onToggleSave: (job: Job) => void;
-  onSelectJob: (job: Job) => void;
+  job: RemoteJob;
+  usdRate: number | null;
+  onSelectJob?: (job: RemoteJob) => void;
 }
 
-export default function JobCard({
-  job,
-  isSaved,
-  onToggleSave,
-  onSelectJob,
-}: JobCardProps) {
-  const jsonLd = {
-    '@context': 'https://schema.org/',
-    '@type': 'JobPosting',
-    title: job.title,
-    description: job.description || `${job.title} at ${job.company}`,
-    datePosted: job.pubDate || new Date().toISOString(),
-    employmentType: job.jobType?.toUpperCase().includes('PART') ? 'PART_TIME' : 'FULL_TIME',
-    hiringOrganization: {
-      '@type': 'Organization',
-      name: job.company,
-      logo: job.companyLogo || 'https://remoterozgar.vercel.app/logo.png',
-    },
-    jobLocationType: 'TELECOMMUTE',
-    applicantLocationRequirements: {
-      '@type': 'Country',
-      name: 'Pakistan',
-    },
-    baseSalary: job.salaryMin ? {
-      '@type': 'MonetaryAmount',
-      currency: job.salaryCurrency || 'USD',
-      value: {
-        '@type': 'QuantitativeValue',
-        minValue: job.salaryMin,
-        maxValue: job.salaryMax || job.salaryMin,
-        unitText: (job.salaryPeriod || 'YEAR').toUpperCase(),
-      },
-    } : undefined,
+export const JobCard: React.FC<JobCardProps> = ({ job, usdRate, onSelectJob }) => {
+  // Compute PKR estimate if monthly USD salary exists
+  const pkrEstimateMin = job.salaryMinUsd ? convertUsdToPkr(job.salaryMinUsd, usdRate) : null;
+  const pkrEstimateMax = job.salaryMaxUsd ? convertUsdToPkr(job.salaryMaxUsd, usdRate) : null;
+
+  let pkrString = '—';
+  if (pkrEstimateMin && pkrEstimateMax && pkrEstimateMin !== '—' && pkrEstimateMax !== '—') {
+    pkrString = `${pkrEstimateMin} - ${pkrEstimateMax}/mo`;
+  } else if (pkrEstimateMin && pkrEstimateMin !== '—') {
+    pkrString = `~${pkrEstimateMin}/mo`;
+  }
+
+  // Format relative date
+  const timeAgo = (dateStr: string) => {
+    try {
+      const diffMs = Date.now() - new Date(dateStr).getTime();
+      const hours = Math.floor(diffMs / (1000 * 60 * 60));
+      if (hours < 1) return 'Just now';
+      if (hours < 24) return `${hours}h ago`;
+      const days = Math.floor(hours / 24);
+      if (days === 1) return '1 day ago';
+      if (days < 30) return `${days}d ago`;
+      return 'Recently';
+    } catch {
+      return 'Recently';
+    }
   };
 
   return (
     <div
-      onClick={() => onSelectJob(job)}
-      className={`group relative flex flex-col justify-between rounded-2xl border bg-white p-5 sm:p-6 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md cursor-pointer ${
-        job.featured
-          ? 'border-brand-500/60 ring-1 ring-brand-500/20 bg-gradient-to-b from-emerald-50/30 to-white'
-          : 'border-slate-200 hover:border-brand-300'
+      className={`group relative flex flex-col justify-between rounded-2xl border bg-white p-5 sm:p-6 transition-all duration-200 hover:shadow-xl hover:shadow-sky-500/5 hover:border-sky-300 ${
+        job.isFeatured
+          ? 'border-amber-300/80 bg-gradient-to-b from-amber-50/20 via-white to-white ring-1 ring-amber-300/50'
+          : 'border-coolgray-200/90'
       }`}
     >
-      {/* Google JobPosting JSON-LD for Rich Search Results */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
       <div>
-        {/* Top Header: Company + Save Button */}
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-700 font-black text-sm border border-slate-200 group-hover:border-brand-300 transition-colors">
-              {job.companyLogo ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={job.companyLogo}
-                  alt={job.company}
-                  className="h-full w-full rounded-xl object-contain p-1"
-                  onError={(e) => {
-                    (e.target as HTMLElement).style.display = 'none';
-                  }}
-                />
-              ) : (
-                <span>{job.company.slice(0, 2).toUpperCase()}</span>
-              )}
-            </div>
-
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-semibold text-slate-600 flex items-center gap-1">
-                  <Building2 className="h-3.5 w-3.5 text-slate-400" />
-                  {job.company}
-                </span>
-                {job.featured && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-800">
-                    <Sparkles className="h-2.5 w-2.5 text-amber-600" />
-                    Featured
-                  </span>
-                )}
-              </div>
-              <h3 className="mt-0.5 text-base sm:text-lg font-bold text-slate-900 group-hover:text-brand-700 transition-colors line-clamp-1">
-                {job.title}
-              </h3>
-            </div>
-          </div>
-
-          {/* Bookmark Button */}
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onToggleSave(job);
-            }}
-            aria-label={isSaved ? 'Remove from saved' : 'Save job'}
-            className={`rounded-xl p-2 transition-colors ${
-              isSaved
-                ? 'bg-rose-50 text-rose-600 hover:bg-rose-100'
-                : 'text-slate-400 hover:bg-slate-100 hover:text-slate-600'
-            }`}
-          >
-            <Bookmark className={`h-4 w-4 ${isSaved ? 'fill-rose-600' : ''}`} />
-          </button>
-        </div>
-
-        {/* Location & Meta */}
-        <div className="mt-3 flex flex-wrap items-center gap-y-1.5 gap-x-3 text-xs text-slate-500">
-          <span className="flex items-center gap-1">
-            <MapPin className="h-3.5 w-3.5 text-slate-400" />
-            <span className="text-emerald-700 font-medium">{job.location}</span>
-          </span>
-          <span>•</span>
-          <span className="capitalize text-slate-600">{job.jobType}</span>
-          <span>•</span>
-          <span>{formatRelativeDate(job.pubDate)}</span>
-        </div>
-
-        {/* Salary Banner with PKR Conversion */}
-        <div className="mt-3.5 rounded-xl bg-slate-50 p-2.5 border border-slate-200/80 flex items-center gap-2 text-xs">
-          <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
-            <DollarSign className="h-3.5 w-3.5" />
-          </div>
-          <div className="overflow-hidden text-ellipsis whitespace-nowrap">
-            <span className="font-semibold text-slate-800">Est. Salary: </span>
-            <span className="font-bold text-emerald-800">{job.estSalaryPkr || 'Market Competitive (USD)'}</span>
-          </div>
-        </div>
-
-        {/* Tags */}
-        <div className="mt-3.5 flex flex-wrap gap-1.5">
-          {job.tags.slice(0, 4).map((tag, idx) => (
-            <span
-              key={idx}
-              className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-medium text-slate-600 hover:bg-slate-200 transition-colors"
-            >
-              #{tag}
+        {/* Top Header: Category, Badges, Date */}
+        <div className="flex items-center justify-between gap-2 mb-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-sky-50 text-sky-700 border border-sky-200/60">
+              {job.category}
             </span>
-          ))}
+            <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium bg-coolgray-100 text-coolgray-700">
+              <Briefcase className="w-3 h-3 mr-1 text-coolgray-400" />
+              {job.jobType}
+            </span>
+            {job.isFeatured && (
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-400 text-navy-950 shadow-xs">
+                <Sparkles className="w-3 h-3 fill-navy-950" /> Featured
+              </span>
+            )}
+          </div>
+
+          <span className="text-xs text-coolgray-400 flex items-center gap-1 shrink-0">
+            <Clock className="w-3 h-3" />
+            {timeAgo(job.pubDate)}
+          </span>
         </div>
+
+        {/* Company Info & Job Title */}
+        <div className="flex items-start gap-3.5 mb-4">
+          {job.companyLogo ? (
+            <img
+              src={job.companyLogo}
+              alt={`${job.companyName} logo`}
+              className="w-12 h-12 rounded-xl object-contain border border-coolgray-100 bg-white p-1 shadow-xs shrink-0"
+              onError={(e) => {
+                // Hide broken image and fall back to building icon
+                (e.target as HTMLElement).style.display = 'none';
+              }}
+            />
+          ) : (
+            <div className="w-12 h-12 rounded-xl bg-navy-900 text-sky-400 flex items-center justify-center font-bold text-lg shadow-xs shrink-0">
+              {job.companyName ? job.companyName.charAt(0).toUpperCase() : <Building2 className="w-6 h-6" />}
+            </div>
+          )}
+
+          <div className="min-w-0 flex-1">
+            <h3
+              onClick={() => onSelectJob?.(job)}
+              className="font-bold text-navy-900 text-base sm:text-lg leading-snug group-hover:text-sky-600 transition-colors cursor-pointer truncate"
+              title={job.title}
+            >
+              {job.title}
+            </h3>
+            <div className="flex items-center gap-2 mt-1 text-sm text-coolgray-600">
+              <span className="font-semibold text-coolgray-800 truncate">{job.companyName}</span>
+              <span>•</span>
+              <span className="flex items-center gap-1 text-xs text-coolgray-500 truncate">
+                <MapPin className="w-3 h-3 text-coolgray-400 shrink-0" />
+                {job.location}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Excerpt */}
+        <p className="text-sm text-coolgray-600 line-clamp-2 mb-4 leading-relaxed">
+          {job.excerpt}
+        </p>
       </div>
 
-      {/* Footer Actions */}
-      <div className="mt-5 pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
-        <WhatsAppShareBtn
-          job={{
-            title: job.title,
-            company: job.company,
-            salaryText: job.estSalaryPkr,
-            url: job.url,
-          }}
-          compact={true}
-        />
+      {/* Footer: Salary + Dynamic PKR & Actions */}
+      <div className="pt-3 border-t border-coolgray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        {/* Salary block with USD and PKR */}
+        <div className="flex flex-col">
+          <span className="text-xs font-semibold text-coolgray-800">
+            {job.salaryFormatted || 'Competitive Pay'}
+          </span>
+          {pkrString !== '—' ? (
+            <span className="text-xs font-bold text-emerald-600 flex items-center gap-1">
+              ≈ {pkrString} <span className="text-[10px] text-coolgray-400 font-normal">(PKR Est.)</span>
+            </span>
+          ) : (
+            <span className="text-[11px] text-coolgray-400">USD Rate Applied</span>
+          )}
+        </div>
 
+        {/* Action Buttons */}
         <div className="flex items-center gap-2">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onSelectJob(job);
-            }}
-            className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
-          >
-            Details
-          </button>
+          {onSelectJob && (
+            <button
+              type="button"
+              onClick={() => onSelectJob(job)}
+              className="px-3 py-1.5 rounded-lg text-xs font-medium text-coolgray-700 bg-coolgray-100 hover:bg-coolgray-200 transition-colors"
+            >
+              View Details
+            </button>
+          )}
 
           <a
-            href={job.url}
+            href={job.applyUrl}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="inline-flex items-center gap-1 rounded-lg bg-brand-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-sm hover:bg-brand-700 transition-colors"
+            className="inline-flex items-center justify-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-semibold text-white bg-navy-900 hover:bg-sky-600 shadow-xs transition-colors shrink-0"
           >
-            <span>Apply</span>
-            <ExternalLink className="h-3 w-3" />
+            <span>Apply Now</span>
+            <ExternalLink className="w-3 h-3" />
           </a>
         </div>
       </div>
     </div>
   );
-}
+};

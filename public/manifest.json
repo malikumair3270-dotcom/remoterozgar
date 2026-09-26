@@ -1,58 +1,37 @@
 {
-  "name": "RemoteRozgar - Remote Jobs PK",
+  "name": "RemoteRozgar — Global Remote Jobs for Pakistan",
   "short_name": "RemoteRozgar",
-  "description": "Find verified global remote jobs and internships. Earn in US Dollars from Pakistan.",
+  "description": "Find verified global remote jobs, internships, and career resources for South Asian talent.",
   "id": "/",
-  "start_url": "/?utm_source=android_app",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#064e3b",
-  "theme_color": "#059669",
+  "background_color": "#0B1220",
+  "theme_color": "#0B1220",
   "categories": ["business", "productivity", "utilities"],
   "lang": "en",
   "dir": "ltr",
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "/icon.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/icon.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/icon.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/icon.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
     }
   ],
   "shortcuts": [
     {
-      "name": "Explore All Jobs",
+      "name": "Browse Remote Jobs",
       "short_name": "Jobs",
       "description": "Browse active remote jobs paying in USD",
-      "url": "/",
-      "icons": [{ "src": "/icon.png", "sizes": "192x192" }]
+      "url": "/jobs"
     },
     {
-      "name": "Paid Internships",
-      "short_name": "Internships",
-      "description": "Browse remote student internships",
-      "url": "/?category=internship",
-      "icons": [{ "src": "/icon.png", "sizes": "192x192" }]
+      "name": "Career Guides",
+      "short_name": "Guides",
+      "description": "Read career and tax guides for Pakistan",
+      "url": "/guides"
     }
   ]
 }

@@ -1,109 +1,77 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import { Scale, ArrowLeft, CheckCircle2, AlertTriangle, ShieldAlert } from 'lucide-react';
 
-export const metadata = {
-  title: 'Terms & Conditions - RemoteRozgar',
-  description: 'Terms of Service and Disclaimer for RemoteRozgar. Guidelines on job aggregation, fair use, and third-party application safety.',
+export const metadata: Metadata = {
+  title: 'Terms of Service — RemoteRozgar',
+  description: 'Terms governing the use of the RemoteRozgar job aggregation and career resource platform.',
 };
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-between text-slate-800">
-      <Navbar />
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+      <nav className="flex items-center gap-2 text-xs text-coolgray-500 mb-2">
+        <Link href="/" className="hover:text-navy-900 transition-colors">
+          Home
+        </Link>
+        <span>/</span>
+        <span className="text-navy-900 font-semibold">Terms of Service</span>
+      </nav>
 
-      <main className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 flex-1">
-        <div className="mb-6">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 hover:text-emerald-700 transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            <span>Back to Remote Jobs</span>
-          </Link>
-        </div>
+      <div className="space-y-2">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-navy-900 tracking-tight">
+          Terms of Service
+        </h1>
+        <p className="text-xs text-coolgray-500">Last updated: September 2026</p>
+      </div>
 
-        <div className="bg-white rounded-2xl p-6 sm:p-10 shadow-sm border border-slate-200/80 space-y-8">
-          <div className="border-b border-slate-100 pb-6">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-600">
-                <Scale className="h-6 w-6" />
-              </div>
-              <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">Terms & Conditions</h1>
-                <p className="text-xs text-slate-500 mt-1">Last Updated: September 18, 2026</p>
-              </div>
-            </div>
-            <p className="text-sm text-slate-600 leading-relaxed mt-3">
-              Welcome to RemoteRozgar! These terms and conditions outline the rules and regulations for the use of RemoteRozgar&apos;s Website, located at https://remoterozgar.vercel.app.
-            </p>
-          </div>
+      <div className="prose prose-navy max-w-none text-coolgray-700 text-sm leading-relaxed space-y-6">
+        <section>
+          <h2 className="text-lg font-bold text-navy-900">1. Acceptance of Terms</h2>
+          <p>
+            By accessing or using RemoteRozgar (&quot;the Platform&quot;), you agree to be bound by these Terms of Service. If you disagree with any part of these terms, please do not use our services.
+          </p>
+        </section>
 
-          {/* Section 1 */}
-          <section className="space-y-3">
-            <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-              <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-              1. Acceptance of Terms
-            </h2>
-            <p className="text-sm text-slate-600 leading-relaxed">
-              By accessing this website we assume you accept these terms and conditions. Do not continue to use RemoteRozgar if you do not agree to take all of the terms and conditions stated on this page.
-            </p>
-          </section>
+        <section>
+          <h2 className="text-lg font-bold text-navy-900">2. Nature of Services</h2>
+          <p>
+            RemoteRozgar operates as an informational directory and aggregator of international remote employment opportunities and educational career resources for South Asian talent.
+          </p>
+          <p>
+            <strong>Important Clarification:</strong> RemoteRozgar is not an employment agency, headhunter, employer, or escrow agent. We do not represent either the hiring company or the applicant in employment contracts, negotiations, or dispute resolution. All employment agreements are entered into directly between the candidate and the prospective employer.
+          </p>
+        </section>
 
-          {/* Section 2 */}
-          <section className="space-y-3">
-            <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-              <ShieldAlert className="h-5 w-5 text-emerald-600" />
-              2. Free Platform & No Application Fees
-            </h2>
-            <p className="text-sm text-slate-600 leading-relaxed">
-              RemoteRozgar is 100% free for job seekers, freelancers, and students. We never charge users any registration, placement, or processing fees for applying to remote positions.
-            </p>
-            <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs leading-relaxed flex items-start gap-2.5">
-              <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
-              <div>
-                <strong>Important Warning:</strong> RemoteRozgar will never ask job applicants for money, bank details, or processing fees. If an employer or external posting asks for money, do not engage and report it to us immediately.
-              </div>
-            </div>
-          </section>
+        <section>
+          <h2 className="text-lg font-bold text-navy-900">3. Employer Job Submissions</h2>
+          <p>
+            Employers submitting job listings through <code>/post-a-job</code> warrant that:
+          </p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>The position represents a legitimate, active remote job opportunity.</li>
+            <li>No fee, deposit, or purchase of software/training is required from applicants as a condition of applying or interviewing.</li>
+            <li>All submitted compensation and role descriptions are accurate and non-misleading.</li>
+          </ul>
+          <p>
+            RemoteRozgar reserves the right to reject, modify, or remove any listing at our sole discretion without prior notice.
+          </p>
+        </section>
 
-          {/* Section 3 */}
-          <section className="space-y-3">
-            <h2 className="text-lg font-bold text-slate-900">3. Third-Party Job Listings & External Links</h2>
-            <p className="text-sm text-slate-600 leading-relaxed">
-              RemoteRozgar aggregates job opportunities from public remote job boards, verified hiring feeds (including Jobicy API), and direct employer submissions. When you click &quot;Apply Now&quot;, you are redirected to the hiring company&apos;s official portal or ATS system.
-            </p>
-            <ul className="list-disc pl-5 text-sm text-slate-600 space-y-1">
-              <li>We do not control or guarantee the content, privacy policies, or hiring practices of third-party employers.</li>
-              <li>RemoteRozgar is not responsible for any agreement or transaction entered into between a candidate and an employer.</li>
-            </ul>
-          </section>
+        <section>
+          <h2 className="text-lg font-bold text-navy-900">4. Currency Conversions & Content Disclaimer</h2>
+          <p>
+            Pakistani Rupee (PKR) conversions displayed on job cards are estimates calculated from open interbank exchange rates refreshed every 6 hours. Actual take-home payments depend on your receiving bank, intermediary deductions, and date of settlement. Educational guides regarding FBR tax filing and banking procedures represent informational commentary and should not be construed as certified legal or tax counsel.
+          </p>
+        </section>
 
-          {/* Section 4 */}
-          <section className="space-y-3">
-            <h2 className="text-lg font-bold text-slate-900">4. Disclaimer of Warranties</h2>
-            <p className="text-sm text-slate-600 leading-relaxed">
-              The materials and listings on RemoteRozgar are provided on an &apos;as is&apos; basis. RemoteRozgar makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability or fitness for a particular purpose.
-            </p>
-          </section>
-
-          {/* Section 5 */}
-          <section className="space-y-3 border-t border-slate-100 pt-6">
-            <h2 className="text-lg font-bold text-slate-900">5. Governing Law & Contact</h2>
-            <p className="text-sm text-slate-600 leading-relaxed">
-              If you have any queries regarding any of our terms, please contact us via our{' '}
-              <Link href="/contact" className="text-emerald-600 underline font-semibold">
-                Contact Form
-              </Link>{' '}
-              or email us at <strong>support@remoterozgar.com</strong>.
-            </p>
-          </section>
-        </div>
-      </main>
-
-      <Footer />
+        <section>
+          <h2 className="text-lg font-bold text-navy-900">5. Limitation of Liability</h2>
+          <p>
+            To the maximum extent permitted by applicable law, RemoteRozgar and its operators shall not be liable for any indirect, incidental, or consequential damages resulting from your use of the platform or transactions with third-party employers.
+          </p>
+        </section>
+      </div>
     </div>
   );
 }
